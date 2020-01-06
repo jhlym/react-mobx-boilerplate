@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { observer } from "mobx-react";
+import useStores from "./hooks/useStores";
 
-const App: React.FC = () => {
+export const Counter = observer(() => {
+  const { counterStore } = useStores();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <div>{counterStore.count}</div>
+      <button onClick={() => counterStore.increment()}>++</button>
+      <button onClick={() => counterStore.decrement()}>--</button>
+    </>
   );
-}
+});
+
+export const ThemeToggler = observer(() => {
+  const { themeStore } = useStores();
+
+  return (
+    <>
+      <div>{themeStore.theme}</div>
+      <button onClick={() => themeStore.setTheme("light")}>
+        set theme: light
+      </button>
+      <button onClick={() => themeStore.setTheme("dark")}>
+        set theme: dark
+      </button>
+    </>
+  );
+});
+
+const App = () => (
+  <main>
+    <Counter />
+    <ThemeToggler />
+  </main>
+);
 
 export default App;
